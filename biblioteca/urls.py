@@ -23,6 +23,8 @@ from libros.views import LibroViewSet
 router = routers.DefaultRouter()
 router.register(r'autores', AutorViewSet)
 router.register(r'editoriales', EditorialViewSet)
+
+# /libros/
 router.register(r'libros', LibroViewSet)
 
 urlpatterns = [

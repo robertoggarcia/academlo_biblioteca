@@ -10,7 +10,16 @@ from libros.models import Libro
 
 class LibroViewSet(viewsets.ModelViewSet):
     """
-    Libro endpoint (viewset)
+    retrieve:
+        Regresa una instancia de un libro de acuerdo al ID mandado.
+    list:
+        Regresa la lista de libros en la base de datos.
+    create:
+        Crea un libro en la base de datos.
+    delete:
+        Elimina un libro.
+    update:
+        Actualiza un libro.
     """
     queryset = Libro.objects.all()
     serializer_class = LibroSerializer
@@ -23,6 +32,9 @@ class LibroViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['GET'])
     def autores(self, request, pk=None):
+        """
+        Regresa los autores de un libro.
+        """
         # /libros/1/autores
         libro = self.get_object() # => Libro.objects.get(id=1)
         autores = libro.autores.all()
@@ -32,6 +44,9 @@ class LibroViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['GET'])
     def editorial(self, request, pk=None):
+        """
+        Regresa la editorial del libro.
+        """
         libro = self.get_object()
         editorial = libro.editorial
         serialized = EditorialSerializer(editorial)
@@ -39,8 +54,6 @@ class LibroViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['GET'])
     def recent(self, request):
-        # /libros/recent/
-        # /libros/publicados/
         libros = Libro.objects.all().order_by('-fecha_publicacion')
         serialized = LibroSerializer(libros, many=True)
         return Response(status=status.HTTP_200_OK, data=serialized.data)

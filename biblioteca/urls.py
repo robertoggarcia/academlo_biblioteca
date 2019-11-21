@@ -15,19 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from autores.views import AutorViewSet
-from editoriales.views import EditorialViewSet
-from libros.views import LibroViewSet
-
-router = routers.DefaultRouter()
-router.register(r'autores', AutorViewSet)
-router.register(r'editoriales', EditorialViewSet)
-
-# /libros/
-router.register(r'libros', LibroViewSet)
+from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api/v1/', include('core.urls.v1')),
     path('admin/', admin.site.urls),
+    path('docs/', include_docs_urls(title='Biblioteca API', public=True))
 ]

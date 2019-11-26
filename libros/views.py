@@ -28,6 +28,8 @@ class LibroViewSet(viewsets.ModelViewSet):
         # retrieve
         if self.action == 'create':
             return CreateLibroSerializer
+        else:
+            return LibroSerializer
         return LibroSerializer
 
     @action(detail=True, methods=['GET'])
